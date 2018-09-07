@@ -142,6 +142,7 @@ dependencies {
     compile project(':react-native-touch-id')
     compile project(':react-native-splash-screen')
     compile project(':react-native-prompt-android')
+    compile project(':react-native-orientation')
     compile project(':react-native-keychain')
     compile project(':react-native-blur')
     compile project(':react-native-background-timer')

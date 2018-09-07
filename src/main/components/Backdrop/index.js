@@ -3,7 +3,7 @@
  */
 import React, { Component } from "react";
 import { ImageBackground, findNodeHandle } from "react-native";
-import { BlurView } from 'react-native-blur';
+import { BlurView } from "react-native-blur";
 
 import MutableImage from "../../../lib/presentation/MutableImage"
 
@@ -106,7 +106,7 @@ export function withBackdrop(image, C, key = "N/A") {
 
       return (
         <Backdrop image={image}>
-          <C navigation={navigation} {...this.props} />;
+          <C navigation={navigation} {...this.props} />
         </Backdrop>
       );
     }

@@ -8,6 +8,7 @@ import com.oblador.vectoricons.VectorIconsPackage;
 import com.rnfingerprint.FingerprintAuthPackage;
 import org.devio.rn.splashscreen.SplashScreenReactPackage;
 import im.shimo.react.prompt.RNPromptPackage;
+import com.github.yamill.orientation.OrientationPackage;
 import com.oblador.keychain.KeychainPackage;
 import com.cmcewen.blurview.BlurViewPackage;
 import com.ocetnik.timer.BackgroundTimerPackage;
@@ -36,6 +37,7 @@ public class MainApplication extends Application implements ReactApplication {
             new FingerprintAuthPackage(),
             new SplashScreenReactPackage(),
             new RNPromptPackage(),
+            new OrientationPackage(),
             new KeychainPackage(),
             new BlurViewPackage(),
             new BackgroundTimerPackage()

@@ -6,19 +6,15 @@ import { StyleSheet } from "react-native";
 import {
   COLORS,
   THEME,
-  TOP_BAR_HEIGHT,
-  BOTTOM_BAR_HEIGHT
+  DEVICE
 } from "../../styles/common"
 
 export const tabStyles = {
-  tabBarStyle: {
-    height: BOTTOM_BAR_HEIGHT,
-    backgroundColor: "transparent"
-  },
   iconStyle: {
     paddingTop: 4
   },
   textStyle: {
+    paddingBottom: 5,
     fontFamily: "Lato-Bold",
     fontSize: THEME.tabBarFontSize
   },
@@ -34,7 +30,7 @@ export const tabStyles = {
 
 export const stackStyles = {
   header: {
-    height: TOP_BAR_HEIGHT,
+    height: DEVICE.topBarHeight,
     backgroundColor: THEME.homeBarBackground
   },
   headerTitle: {
@@ -48,6 +44,10 @@ export const stackStyles = {
 }
 
 export default StyleSheet.create({
+  tabBarStyle: {
+    height: DEVICE.bottomBarHeight,
+    backgroundColor: THEME.tabBarBackground
+  },
   stackHeaderIcon: {
     marginTop: 5,
     marginLeft: 10,

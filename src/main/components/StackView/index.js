@@ -2,14 +2,14 @@
  * Copyright 2018-2018 AppBricks, Inc. or its affiliates. All Rights Reserved.
  */
 import React, { Component } from "react";
-import { StatusBar } from 'react-native';
+import { StatusBar } from "react-native";
+import { SafeAreaView } from "react-navigation";
 
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view"
 
 import {
-  VIEWPORT_HEIGHT,
-  HEADER_HEIGHT,
-  THEME
+  THEME,
+  DEVICE
 } from "../../styles/common";
 import styles from "./styles";
 
@@ -20,13 +20,11 @@ export default class StackView extends Component<Props> {
     super(props);
 
     this.childRefs = [];
-    this.childLayouts = [];
 
     if (!this.props.scrollHeight
-      && typeof this.props.children != "undefined") {
+      && this.props.children) {
 
       if (Array.isArray(this.props.children)) {
-
         this.props.children.forEach(child => {
           child.type.prototype.addChildRef = this._addChildRef.bind(this);
           child.type.prototype.addChildLayout = this._addChildLayout.bind(this);
@@ -36,18 +34,29 @@ export default class StackView extends Component<Props> {
         this.props.children.type.prototype.addChildRef = this._addChildRef.bind(this);
         this.props.children.type.prototype.addChildLayout = this._addChildLayout.bind(this);
       }
+
+      this.state = {
+        topMargin: DEVICE.headerHeight + 5,
+        scrollHeight: 0
+      };
+
+      this._scrollHeight = 0;
+      this._layoutUpdateCounter = 0;
+      this._orientationListenerFn = this._orientationListener.bind(this);
+
+    } else {
+      this.state = {
+        topMargin: 0,
+        scrollHeight: this.props.scrollHeight || DEVICE.viewportHeight
+      };
     }
-
-    this.marginTop = HEADER_HEIGHT + 5;
-    this.viewHeight = this.marginTop;
-
-    this.state = {
-      viewHeight: this.props.scrollHeight || VIEWPORT_HEIGHT
-    };
   }
 
   componentDidMount() {
-    this._blurBackgroundImage(true);
+
+    if (this._orientationListenerFn) {
+      DEVICE.addOrientationListener(this._orientationListenerFn);
+    }
   }
 
   componentDidUpdate() {
@@ -56,6 +65,10 @@ export default class StackView extends Component<Props> {
 
   componentWillUnmount() {
     this._blurBackgroundImage(false);
+
+    if (this._orientationListenerFn) {
+      DEVICE.removeOrientationListener(this._orientationListenerFn);
+    }
   }
 
   _addChildRef(ref) {
@@ -64,15 +77,15 @@ export default class StackView extends Component<Props> {
 
   _addChildLayout(layout) {
 
-    this.childLayouts.push(layout);
-    this.viewHeight += layout.height + 10;
-
-    if (this.childLayouts.length == this.childRefs.length) {
-      this.viewHeight += 5;
+    this._scrollHeight += layout.height + 10;
+    if (++this._layoutUpdateCounter == this.childRefs.length) {
 
       this.setState({
-        viewHeight: this.viewHeight
+        scrollHeight: this._scrollHeight + 5
       })
+
+      this._layoutUpdateCounter = 0;
+      this._scrollHeight = 0;
     }
   }
 
@@ -88,6 +101,13 @@ export default class StackView extends Component<Props> {
     }
   }
 
+  _orientationListener(orientation) {
+
+    this.setState({
+      topMargin: DEVICE.headerHeight + 5
+    });
+  }
+
   render() {
 
     const {
@@ -96,24 +116,30 @@ export default class StackView extends Component<Props> {
     } = this.props;
 
     return (
-      <KeyboardAwareScrollView
-        contentContainerStyle={[
-          {
-            marginTop: this.marginTop,
-            height: this.state.viewHeight
-          },
-          styles.container,
-          style
-        ]}
-        resetScrollToCoords={{ x: 0, y: 0 }}
-        showsVerticalScrollIndicator={false}
-        showsHorizontalScrollIndicator={false}
-        pinchGestureEnabled={false}
-        {...props}
-      >
-        <StatusBar barStyle={THEME.stackViewStatusBar} />
-        {this.props.children}
-      </KeyboardAwareScrollView>
+      <SafeAreaView
+        forceInset={{ top: "never", horizontal: "always" }}
+        style={{ flex: 1 }}>
+
+        <KeyboardAwareScrollView
+          contentContainerStyle={[
+            {
+              marginTop: this.state.topMargin,
+              height: this.state.topMargin + this.state.scrollHeight
+            },
+            styles.container,
+            style
+          ]}
+          resetScrollToCoords={{ x: 0, y: 0 }}
+          showsVerticalScrollIndicator={false}
+          showsHorizontalScrollIndicator={false}
+          pinchGestureEnabled={false}
+          {...props}
+        >
+          <StatusBar barStyle={THEME.stackViewStatusBar} />
+          {this.props.children}
+        </KeyboardAwareScrollView>
+
+      </SafeAreaView>
     )
   }
 }

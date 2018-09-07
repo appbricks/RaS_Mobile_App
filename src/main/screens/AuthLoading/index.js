@@ -15,7 +15,8 @@ import LoadingView from "../../components/LoadingView";
 import Logger from "../../../lib/utils/Logger";
 
 import common, {
-  COLORS
+  COLORS,
+  DEVICE
 } from "../../styles/common";
 import styles from "./styles";
 
@@ -30,9 +31,13 @@ class AuthLoading extends AuthComponent<props> {
 
     if (isSignedIn) {
       this.logger.trace("navigating to \"Main\" screen");
+
+      DEVICE.unlockAllOrientations();
       this.props.navigation.navigate("Main");
     } else {
       this.logger.trace("navigating to \"SignIn\" screen");
+
+      DEVICE.lockToPortrait();
       this.props.navigation.navigate("SignIn");
     }
   }

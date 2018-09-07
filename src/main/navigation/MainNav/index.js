@@ -4,7 +4,7 @@
 import React, { Component } from "react";
 import { View, ScrollView, TouchableHighlight, TouchableWithoutFeedback, Text } from "react-native";
 
-import { createDrawerNavigator, SafeAreaView } from 'react-navigation';
+import { createDrawerNavigator, SafeAreaView } from "react-navigation";
 import { Icon } from "react-native-elements";
 
 import {
@@ -22,7 +22,8 @@ import HelpNav from "../HelpNav";
 import SignOut from "../../screens/SignOut";
 
 import common, {
-  THEME
+  THEME,
+  DEVICE
 } from "../../styles/common";
 import styles, {
   drawerStyles,
@@ -162,7 +163,15 @@ const MainNav = createDrawerNavigator(
   }
 );
 
-export default MainNav;
+export default DEVICE.orientationAware(MainNav, (orientation, props) => {
+
+  props.screenProps.drawerLockMode =
+    orientation === "LANDSCAPE"
+      ? "locked-closed"
+      : "unlocked";
+
+  return true;
+});
 
 // Stack navigation helpers
 
@@ -174,21 +183,11 @@ export function stackFirstHeader(title) {
 
   return ({ navigation, screenProps }) => {
 
-    return {
+    let options = {
       headerTransparent: true,
       headerStyle: stackStyles.header,
       headerTitleStyle: stackStyles.headerTitle,
       headerBackTitleStyle: stackStyles.headerBackTitle,
-      headerLeft: (
-        <Icon
-          type="font-awesome"
-          name="bars"
-          color={stackStyles.headerIconColor}
-          underlayColor="transparent"
-          containerStyle={styles.stackHeaderIcon}
-          onPress={navigation.openDrawer}
-        />
-      ),
       title: title,
       headerRight: (
         <Icon
@@ -201,7 +200,25 @@ export function stackFirstHeader(title) {
         />
       )
     };
-  };
+
+    if (DEVICE.isOrientationPotrait()) {
+      options = Object.assign(options, {
+        headerLeft: (
+          <Icon
+            type="font-awesome"
+            name="bars"
+            color={stackStyles.headerIconColor}
+            underlayColor="transparent"
+            containerStyle={styles.stackHeaderIcon}
+            onPress={navigation.openDrawer}
+          />
+        )
+      });
+    } else {
+      setTimeout(() => navigation.closeDrawer());
+    }
+    return options;
+  }
 }
 
 /**
