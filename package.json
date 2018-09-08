@@ -30,10 +30,11 @@
     "redux": "^4.0.0"
   },
   "devDependencies": {
-    "babel-jest": "23.0.1",
-    "babel-preset-react-native": "4.0.0",
-    "jest": "23.1.0",
-    "react-test-renderer": "16.3.1",
+    "@babel/core": "^7.0.0",
+    "babel-core": "7.0.0-bridge.0",
+    "babel-preset-react-native": "^5.0.2",
+    "jest": "^23.5.0",
+    "react-test-renderer": "16.5.0",
     "flow-bin": "^0.80.0"
   },
   "rnpm": {
@@ -44,7 +45,13 @@
   "jest": {
     "preset": "react-native",
     "testPathIgnorePatterns": [
-      "/vendor/"
-    ]
+      "/__tests__/common/",
+      "/__tests__/data/",
+      "/vendor/",
+      "/jest/"
+    ],
+    "transform": {
+      "^.+\\.jsx?$": "<rootDir>/jest/preprocessor.js"
+    }
   }
 }

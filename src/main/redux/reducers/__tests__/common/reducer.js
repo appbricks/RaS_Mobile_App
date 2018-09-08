@@ -1,7 +1,7 @@
 /*
  * Copyright 2018-2018 AppBricks, Inc. or its affiliates. All Rights Reserved.
  */
-import { reducer } from "../reducer";
+import { reducer } from "../../reducer";
 
 const env = {
   reduxState: {}
@@ -21,8 +21,3 @@ export function initialize() {
 export function dispatch(action) {
   env.reduxState = reducer(env.reduxState, action);
 }
-
-// No-op as this file contains 
-// shared test dependencies
-test("noop", () => {
-});

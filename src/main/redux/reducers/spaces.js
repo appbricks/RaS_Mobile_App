@@ -129,7 +129,7 @@ const reducer = (state, action) => {
 
       } else {
 
-        error = "no space with id " + action.data.id +
+        let error = "no space with id " + action.data.id +
           " found in application state";
 
         const onError = action.callbacks.onError;

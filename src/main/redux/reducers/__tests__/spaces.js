@@ -17,7 +17,7 @@ import {
   state,
   initialize,
   dispatch
-} from "./reducer";
+} from "./common/reducer";
 
 import {
   getSpace1Data,
@@ -110,7 +110,7 @@ describe("managing spaces", () => {
     });
 
     const s = state();
-    space = modifySpace2(s.spaces.spaces[1]);
+    let space = modifySpace2(s.spaces.spaces[1]);
 
     dispatch(modifySpace(
       space,

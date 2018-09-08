@@ -48,6 +48,7 @@ export const addSpace = (
 };
 
 export const modifySpace = (
+  space: Space,
   onUpdate?: () => void,
   onError?: (object) => error
 ) => {

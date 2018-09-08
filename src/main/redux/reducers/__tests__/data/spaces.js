@@ -180,7 +180,7 @@ export function validateSpace2(s: Space, modified: boolean = false) {
 
   if (modified) {
 
-    space.specs.maxOccupancy = 25;
+    s.specs.maxOccupancy = 25;
     expect(s.attributes.length).toBe(7);
     expect(s.attributes[6].name).toBe("lighting");
     expect(s.attributes[6].value).toBe("flourescent");
@@ -203,8 +203,3 @@ export function modifySpace2(s: Space): Space {
 
   return s;
 }
-
-// No-op as this file contains 
-// shared test dependencies
-test("noop", () => {
-});
