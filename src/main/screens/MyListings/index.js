@@ -52,7 +52,7 @@ class MyListings extends AuthComponent<Props> {
 
           <CardView
             key={"MyListing_" + d.value}
-            style={THEME.homeCardStyleTransparent}>
+            style={THEME.homeCardStyle}>
 
             <View
               style={{
