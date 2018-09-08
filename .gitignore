@@ -57,3 +57,6 @@ buck-out/
 
 # Ignore AWS Amplify Configuration
 aws-exports.js
+
+# Ingnore scratch notes in repo
+.scratch_notes
