@@ -18,6 +18,21 @@ import {
   resetUser,
   updateUser
 } from "./actions/auth";
+import {
+  loadSpaces,
+  addSpace,
+  modifySpace,
+  deleteSpace,
+  addSpaceImage,
+  deleteSpaceImage
+} from "./actions/spaces";
+import {
+  loadListings,
+  addListing,
+  modifyListing,
+  deleteListing,
+  enumerateReservations
+} from "./actions/listings";
 
 const reduxStore = createStore(
   reducer,
@@ -41,5 +56,22 @@ export {
   updateUser,
 
   // UI action dispatch creators
-  updateAvatar
+  updateAvatar,
+
+  // Space management action dispatch creators
+  loadSpaces,
+  addSpace,
+  modifySpace,
+  deleteSpace,
+  addSpaceImage,
+  deleteSpaceImage,
+
+  // Space listing action dispatch creators
+  loadListings,
+  addListing,
+  modifyListing,
+  deleteListing,
+  enumerateReservations
+
+  // Alert action dispatch creators
 }
